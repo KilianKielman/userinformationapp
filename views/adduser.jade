@@ -1,0 +1,16 @@
+doctype html
+html
+ head     
+   title Hello
+ body
+ form(action="/adduser", method="post")
+   | firstname: 
+   input(type='text', name='firstname')
+   br
+   |     lastname: 
+   input(type='text', name='lastname')
+   br
+   |     email: 
+   input(type='text', name='email')
+   br
+   input(type='submit', value='Create user')
