@@ -3,31 +3,61 @@ html
 	head
 		script(src='http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js')
 	body
-		h1 Find username:
-		form(action='/autocomplete' method='post')
-			input#firstname(placeholder='search for a name or an emailadress..' name='autocomplete', autocomplete='off', style="width:230px")
-			input#goButton(type="submit", value="Search") 
-
-		a(href='/') home
+		a(href='/') Home
 		br
-		a(href='/adduser') register
+		a(href='/adduser') Create a user
+		h1 Find your user:
+		form(action='/searchresult' method='post')
+			input#firstname(placeholder='search for a name...' name='autocomplete', autocomplete='off')
+			input#goButton(type="submit", value="Give it a try..") 
 		p#listIt
+		body
+			style.
+				#listIt{
+				position: relative;
+				position: absolute;
+				background-color: #f9f9f9;
+				min-width: 160px;
+				overflow: auto;
+				box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+				color: black;
+				padding: 12px 16px;
+				text-decoration: none;
+				display: none;
+				}
+				#goButton {
+				background-color: #4CAF50;
+				border: none;
+				color: white;
+				padding: 15px 32px;
+				text-align: center;
+				text-decoration: none;
+				display: inline-block;
+				font-size: 16px;
+				margin: 4px 2px;
+				cursor: pointer;
+				}
+				#firstname {
+				padding: 15px 32px;
+				display: inline-block;
+				font-size: 16px;
+				margin: 4px 2px;
+				cursor: pointer;
+				}
 		script.
 			var timer;
 			$("#firstname").keyup(function (e) {
-				
-				$('#listIt').empty();
-
+			$('#listIt').css({'display': 'block'})
 				var fileData = {
 					autocomplete : $("#firstname").val()
 					}
 				console.log(fileData)
 				timer = setTimeout(function() {
-				$.post("/autocomplete", fileData,function(res, textStatus) {
-
-						for(i = 0; i < res.object.length; i++) {
+				$.post("/autocomplete", fileData,function(suggestions, textStatus) {
+						$('#listIt').empty();
+						for(i = 0; i < suggestions.length; i++) {
 						
-						$('#listIt').append("<p id=" + i + ">" + res.object[i] + "</p>" );
+						$('#listIt').append("<p id=" + i + ">" + suggestions[i] + "</p>" );
 		
 						}
 					});

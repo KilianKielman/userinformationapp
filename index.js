@@ -34,16 +34,31 @@ app.get('/search', function(req, res) { // this form makes it possible to search
 });
 
 app.post('/searchresult', function(request, response) { // this route is loaded, when someone presses the submit button
-  searchresult = request.body.searchresult; // sets var searchresult equal to the input of the user in the form
   fs.readFile('users.json', function(err, data) { //this reads the users.json file
     user = JSON.parse(data); // here you parse the data from the users.json file into a new variable 'user'
     for (var i = 0; i < user.length; i++) { // with this for loop you are checking if your input matched with the info of the existing users
-      if (user[i].firstname === searchresult || user[i].lastname === searchresult) { // here you are checking either the first or the lastname is equal to the first- or lastname of your input
+      
+      var searchresult = request.body.autocomplete; // sets var searchresult equal to the input of the user in the form
+      var searchForAllLetters = searchresult.toLowerCase();
+      
+      var sensitive = user[i].firstname;
+      var firstname = sensitive.toLowerCase();
+      
+      var sensitive2 = user[i].lastname;
+      var lastname = sensitive2.toLowerCase();
+      
+      var sensitive3 = user[i].email;
+      var email = sensitive3.toLowerCase();
+
+      var fullname = firstname + " " + lastname;
+      
+      if (firstname === searchForAllLetters || lastname === searchForAllLetters || fullname === searchForAllLetters) { // here you are checking either the first or the lastname is equal to the first- or lastname of your input
         response.send("Users firstname: " + user[i].firstname + '</br>' +
-          "Users lastname: " + user[i].lastname + '</br>' + "Users email: " + user[i].email);
+          "Users lastname: " + lastname + '</br>' + "Users email: " + email);
         return;
       }
     }
+    response.send('user not found!');
   })
 });
 
@@ -76,9 +91,7 @@ app.post('/autocomplete', function(req, res) {
         }
       }
     }
-    res.send({
-      object: suggestions
-    });
+    res.send(suggestions);
     return;
   });
 });
