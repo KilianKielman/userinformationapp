@@ -1,0 +1,35 @@
+doctype html
+html
+	head
+		script(src='http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js')
+	body
+		h1 Find username:
+		form(action='/autocomplete' method='post')
+			input#firstname(placeholder='search for a name or an emailadress..' name='autocomplete', autocomplete='off', style="width:230px")
+			input#goButton(type="submit", value="Search") 
+
+		a(href='/') home
+		br
+		a(href='/adduser') register
+		p#listIt
+		script.
+			var timer;
+			$("#firstname").keyup(function (e) {
+				
+				$('#listIt').empty();
+
+				var fileData = {
+					autocomplete : $("#firstname").val()
+					}
+				console.log(fileData)
+				timer = setTimeout(function() {
+				$.post("/autocomplete", fileData,function(res, textStatus) {
+
+						for(i = 0; i < res.object.length; i++) {
+						
+						$('#listIt').append("<p id=" + i + ">" + res.object[i] + "</p>" );
+		
+						}
+					});
+				},300)
+			});

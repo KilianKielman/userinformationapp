@@ -1,0 +1,13 @@
+doctype html
+html
+  head
+    title Available users:
+ body
+ a(href='/search') Find user(s)
+ br
+ a(href='/adduser') Create a new user
+ h1 Available users:
+   
+ each val in datajson
+     p=val.firstname + " " + val.lastname
+     
