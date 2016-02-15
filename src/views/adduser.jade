@@ -1,0 +1,39 @@
+doctype html
+html
+ head     
+   title Hello
+ body
+   a(href='/') Home
+   br
+   a(href='/search') Find user(s)
+p
+p
+   h1 Fill in your details:
+form(action="/adduser", method="post")
+   | What is your firstname?    
+   input(type='text', name='firstname')
+   br
+   br
+   | What is your lastname?    
+   input(type='text', name='lastname')
+   br
+   br
+   | What is your email?    
+   input(type='text', name='email')
+   br
+   br
+   input#goButton(type="submit", value="Create new user..")
+   p
+      style.
+         #goButton {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            }
