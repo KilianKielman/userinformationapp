@@ -45,15 +45,17 @@ html
 				cursor: pointer;
 				}
 		script.
-			var timer;
-			$("#firstname").keyup(function (e) {
+			var timer = 0;
+			$("#firstname").keyup(function () {
 			$('#listIt').css({'display': 'block'})
 				var fileData = {
 					autocomplete : $("#firstname").val()
 					}
 				console.log(fileData)
-				timer = setTimeout(function() {
-				$.post("/autocomplete", fileData,function(suggestions, textStatus) {
+				
+				if (Date.now() - timer > 3000) {
+					timer = Date.now();
+				$.post("/autocomplete", fileData,function(suggestions) {
 						$('#listIt').empty();
 						for(i = 0; i < suggestions.length; i++) {
 						
@@ -61,5 +63,5 @@ html
 		
 						}
 					});
-				},300)
+				}	
 			});
