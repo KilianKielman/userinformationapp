@@ -6,6 +6,7 @@ var express = require('express'); // requires the express module (servermodule)
 
 // Start express and set settings
 var app = express(); // sets app equal to calling the express module
+
 app.use(bodyParser.urlencoded({ // this makes the bodyparser function available to the express server
   extended: true
 }));
@@ -105,7 +106,7 @@ app.get('/adduser', function(request, response) { // if this route is loaded it 
 /* POST THE CREATED USER INTO THE USERS.JSON FILE */
 
 app.post('/adduser', function(request, response) {
-  createdUser = (request.body); // sets var createdUser equal to the input of the user in the form
+  createdUser = request.body; // sets var createdUser equal to the input of the user in the form
   fs.readFile('users.json', 'utf8', function(err, data) { // here you read the users.json file
     if (err) { // if there is an error..
       throw (err); // show error..
